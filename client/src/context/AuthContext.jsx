@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from 'axios';
 
 const AuthContext = createContext();
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (data) => {
-    const res = await axios.post("/api/auth/login", data);
+    const res = await axios.post(`${API_URL}/api/auth/login`, data);
     setUser(res.data.user);
     setAccessToken(res.data.accessToken);
 
@@ -32,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signup = async (data) => {
-    const res = await axios.post("/api/auth/signup", data);
+    const res = await axios.post(`${API_URL}/api/auth/signup`, data);
     setUser(res.data.user);
     setAccessToken(res.data.accessToken);
 
@@ -41,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await axios.post("/api/auth/logout");
+    await axios.post(`${API_URL}/api/auth/logout`);
     setUser(null);
     setAccessToken("");
     
@@ -51,7 +53,7 @@ export const AuthProvider = ({ children }) => {
 
   const refresh = async () => {
     try {
-      const res = await axios.get("/api/auth/refresh-token",{ withCredentials: true });
+      const res = await axios.get(`${API_URL}/api/auth/refresh-token`,{ withCredentials: true });
       setAccessToken(res.data.accessToken);
       localStorage.setItem("token", res.data.accessToken);
 
@@ -69,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   const getMe = async () => {
     if (!accessToken) return; // Prevent calling without token
     try {
-      const res = await axios.get("/api/auth/me", {
+      const res = await axios.get(`${API_URL}/api/auth/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Cache-Control": "no-cache", 

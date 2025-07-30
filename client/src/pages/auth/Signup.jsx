@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const Signup = () => {
     if (!validateForm()) return;
 
     try {
-      await axios.post("http://localhost:5000/api/auth/signup", form, { withCredentials: true });
+      await axios.post(`${API_URL}/api/auth/signup`, form, { withCredentials: true });
     
         navigate("/login");
     
