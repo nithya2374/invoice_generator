@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -26,7 +27,7 @@ export default function Profile() {
       try {
 
         setError("");
-        const res = await axios.get("/api/auth/me",{
+        const res = await axios.get(`${API_URL}/api/auth/me`,{
            headers: { Authorization: `Bearer ${accessToken}` },
         });
 
@@ -58,7 +59,7 @@ export default function Profile() {
     setSaving(true);
     try {
       setError("");
-      const res = await axios.put(`/api/user/update-profile/${user.id}`, form,{
+      const res = await axios.put(`${API_URL}/api/user/update-profile/${user.id}`, form,{
           headers: { Authorization: `Bearer ${accessToken}` },
       });
 

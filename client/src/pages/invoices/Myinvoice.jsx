@@ -11,13 +11,15 @@ const MyInvoices = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
 
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Fetch all invoices
   const fetchInvoices = async () => {
     try {
-      const res = await axios.get("/api/invoices/",{
+      const res = await axios.get(`${API_URL}/api/invoices/`,{
           headers: { Authorization: `Bearer ${accessToken}` },
         });
+
       setInvoices(res.data);
     } catch (error) {
       console.error("Error fetching invoices:", error);
@@ -27,10 +29,9 @@ const MyInvoices = () => {
   // Delete an invoice
   const deleteInvoice = async (id) => {
     
-    try {
-      await axios.delete(`/api/invoices/${selectedInvoiceId}`,{
+    try {`${API_URL}/api/invoices/${selectedInvoiceId}`,{
           headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        };
       fetchInvoices(); // Refresh after delete
       setShowDeleteModal(false);
     } catch (error) {
@@ -41,7 +42,7 @@ const MyInvoices = () => {
   // Download invoice PDF
   const downloadPDF = async (id) => {
     try {
-      const res = await axios.get(`/api/invoices/${id}/pdf`, { 
+      const res = await axios.get(`${API_URL}/api/invoices/${id}/pdf`, { 
           responseType: "blob" ,
           headers: { Authorization: `Bearer ${accessToken}` },
         });

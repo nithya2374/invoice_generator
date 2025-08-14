@@ -13,10 +13,11 @@ const InvoiceDetails = () => {
 
   // Fetch single invoice
   console.log("Access Token in InvoiceDetails:", accessToken);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchInvoice = async () => {
     try {
-      const res = await axios.get(`/api/invoices/${id}`,{
+      const res = await axios.get(`${API_URL}/api/invoices/${id}`,{
           headers: { Authorization: `Bearer ${accessToken}`},
         });
       setInvoice(res.data);

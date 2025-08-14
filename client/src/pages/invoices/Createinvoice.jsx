@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CreateInvoice = () => {
   const [formData, setFormData] = useState({
     clientName: "",
@@ -87,7 +89,7 @@ const CreateInvoice = () => {
 
     try {
       await axios.post(
-        "/api/invoices/",
+        `${API_URL}/api/invoices/`,
         {
           clientName: formData.clientName,
           Items: formData.items,

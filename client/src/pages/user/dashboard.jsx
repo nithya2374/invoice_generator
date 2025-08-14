@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Dashboard = () => {
   const [recentInvoices, setRecentInvoices] = useState([]);
   const { user,accessToken } = useAuth();
@@ -16,7 +18,7 @@ const Dashboard = () => {
   // Fetch last 3 invoices from API
   const fetchRecentInvoices = async () => {
     try {
-      const res = await axios.get("/api/invoices/", {headers:{Authorization: `Bearer ${accessToken}`}});
+      const res = await axios.get(`${API_URL}/api/invoices/`, {headers:{Authorization: `Bearer ${accessToken}`}});
       const invoices = Array.isArray(res.data) 
       ? res.data 
       : res.data.invoices || []; // fallback if invoices are nested
@@ -61,7 +63,7 @@ const Dashboard = () => {
   // Fetch full user profile from getMe
   const fetchUserProfile = async () => {
     try {
-      const res = await axios.get("/api/auth/me", {
+      const res = await axios.get(`${API_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setUserProfile(res.data);

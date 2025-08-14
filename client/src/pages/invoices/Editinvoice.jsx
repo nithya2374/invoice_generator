@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const EditInvoice = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const EditInvoice = () => {
       console.log("Fetching invoice with ID:", id);
       console.log("Access Token:", accessToken);
 
-      const res = await axios.get(`/api/invoices/${id}`, {
+      const res = await axios.get(`${API_URL}/api/invoices/${id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
@@ -62,7 +63,7 @@ const EditInvoice = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`/api/invoices/${id}`, form, {
+      await axios.put(`${API_URL}/api/invoices/${id}`, form, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
