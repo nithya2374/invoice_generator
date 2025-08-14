@@ -50,6 +50,11 @@ const userschema = new mongoose.Schema({
        enum: ["local", "google"],
        default: "local"
     },
+
+    lastLogin: { 
+      type: Date,
+    },
+
 },{timestamps:true});
 
 module.exports= mongoose.model("User",userschema);

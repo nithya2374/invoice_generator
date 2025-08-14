@@ -82,6 +82,9 @@ const login = asyncHandler(async (req,res) =>{
         const match = await bcrypt.compare(password,user.password);
         if (!match) return res.status(400).json({ message:"Invalid Password"});
 
+        user.lastLogin = new Date();
+        await user.save();
+
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
 
@@ -92,7 +95,8 @@ const login = asyncHandler(async (req,res) =>{
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         })
 
-        res.json({message:"Login successful",accessToken,user:{name:user.name,role:user.role}});
+        res.json({message:"Login successful",accessToken,user:{name:user.name, role:user.role, lastLogin:user.lastLogin}});
+
      }
      catch(err){
         res.status(500).json({error:err.message});
@@ -101,9 +105,9 @@ const login = asyncHandler(async (req,res) =>{
 });
 
 const getMe = async (req, res) => {
-  const { _id, name, email ,role} = req.user;
+  const { _id, name, email ,role, businessName, contactNumber, country, createdAt , lastLogin } = req.user;
   res.set("Cache-Control", "no-store"); 
-  res.status(200).json({ id:_id, name, email, role });
+  res.status(200).json({ id:_id, name, email, role ,businessName , contactNumber, country, createdAt , lastLogin });
 };
 
 const logout = async(req,res) =>{

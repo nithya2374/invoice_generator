@@ -10,9 +10,12 @@ import ProtectedRoute from '../components/Common/ProtectedRoute';
 import VisitorHome from '../pages/VisitorHome';
 import UserLayout from '../Layout/UserLayout';
 import AdminRoutes from './AdminRoutes'; 
+import Dashboard from '../pages/user/dashboard';
+import InvoiceDetails from '../pages/invoices/Invoicedetails';
+import EditInvoice  from '../pages/invoices/Editinvoice';
+import ProfilePage from  '../pages/user/Profile';
 
-
-const AppRoutes = () => {
+const AppRoutes = () => { 
   return (
       
     <Routes>    
@@ -27,9 +30,13 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute role="user" />}>
         <Route path="/user" element={<UserLayout />}>
           <Route path="/user/home" element={<UserHome />} />
+          <Route path="/user/dashboard" element={<Dashboard/>}/>
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/invoices/create" element={<CreateInvoice />} />
           <Route path="/user/invoices/mine" element={<MyInvoices />} />  
+          <Route path="/user/invoices/:id" element={<InvoiceDetails/>} />
+          <Route path="/user/invoices/edit/:id" element={<EditInvoice/>}/>
+          <Route path="/user/profile" element={<ProfilePage/>}/>
         </Route>
       </Route>
 

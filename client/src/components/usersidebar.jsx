@@ -1,11 +1,19 @@
 // src/components/UserSidebar.jsx
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 import { useSidebar } from "../context/SidebarContext"; 
 
 const UserSidebar = () => {
   
   const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebar();
+  const { user,logout } = useAuth();
+  const navigate = useNavigate(); 
+
+   const handleLogout = async () => {
+    navigate("/"); // Redirect to login page
+    await logout();
+  };
 
   return (
     <>
@@ -31,10 +39,22 @@ const UserSidebar = () => {
 
         {/* Navigation Links */}
         <nav className="flex flex-col space-y-5 text-lg">
-          <Link to="/user" onClick={closeSidebar} className="hover:text-purple-400">📊 Dashboard</Link>
-          <Link to="/user/invoices" onClick={closeSidebar} className="hover:text-purple-400">📄 Invoices</Link>
-          <Link to="/user/create-invoice" onClick={closeSidebar} className="hover:text-purple-400">➕ Create Invoice</Link>
+          <Link to="/user/dashboard" onClick={closeSidebar} className="hover:text-purple-400">📊 Dashboard</Link>
+          <Link to="/user/invoices/mine" onClick={closeSidebar} className="hover:text-purple-400">📄 Invoices</Link>
+          <Link to="/user/invoices/create" onClick={closeSidebar} className="hover:text-purple-400">➕ Create Invoice</Link>
           <Link to="/user/profile" onClick={closeSidebar} className="hover:text-purple-400">👤 Profile</Link>
+          
+          {/* Logout Button */}
+          <button
+           onClick={() => {
+             handleLogout();   // Calls your logout function
+             closeSidebar();  // Closes the sidebar
+           }}
+          className="text-left hover:text-red-400 mt-5 md:hidden"
+          >
+          🚪 Logout
+          </button>
+
         </nav>
       </aside>
     </>

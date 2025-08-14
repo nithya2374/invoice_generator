@@ -17,7 +17,12 @@ const authMiddleware = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       // Attach user info to request
-      req.user = await User.findById(decoded.userId).select("_id name email role");
+      req.user = await User.findById(decoded.userId||decoded._id).select("_id name email role businessName contactNumber country createdAt lastLogin");
+      
+
+      if (!req.user) {
+        return res.status(401).json({ message: "Not authorized, user not found" });
+      }
 
       next();
     } catch (error) {
